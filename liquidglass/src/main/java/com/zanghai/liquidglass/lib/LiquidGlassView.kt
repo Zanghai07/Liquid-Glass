@@ -9,7 +9,6 @@ import android.view.MotionEvent
 import android.view.TextureView
 import android.view.View
 import android.view.ViewOutlineProvider
-import com.zanghai.liquidglass.R
 
 /**
  * A true physically-based liquid glass effect view for Android.
@@ -44,8 +43,8 @@ class LiquidGlassView @JvmOverloads constructor(
         surfaceTextureListener = this
         
         // Parse XML attributes
-        attrs?.let {
-            val a = context.obtainStyledAttributes(it, R.styleable.LiquidGlassView, defStyleAttr, 0)
+        if (attrs != null) {
+            val a = context.obtainStyledAttributes(attrs, R.styleable.LiquidGlassView, defStyleAttr, 0)
             
             val builder = LiquidGlassConfig.Builder()
             
