@@ -40,13 +40,17 @@ internal class BackgroundCaptureEngine(
 
     private var captureThread: HandlerThread? = null
     private var captureHandler: Handler? = null
+    
+    private val isDrawingOnUIThread = AtomicBoolean(false)
 
     private val captureRunnable = object : Runnable {
         override fun run() {
             if (!isRunning.get() || isPaused.get()) return
 
             try {
-                captureBackground()
+                if (!isDrawingOnUIThread.get()) {
+                    captureBackground()
+                }
             } catch (e: Exception) {
                 Log.e(TAG, "Background capture failed", e)
             }
@@ -156,38 +160,31 @@ internal class BackgroundCaptureEngine(
         val parentHeight = parent.height
         if (parentWidth <= 0 || parentHeight <= 0) return
 
-        // Create (or reuse) a full-parent canvas only if needed
-        val canvas = Canvas(bitmap)
-        canvas.save()
+        // We must perform all Canvas operations and the actual draw on the UI thread
+        isDrawingOnUIThread.set(true)
+        view.post {
+            val canvas = Canvas(bitmap)
+            canvas.save()
+            
+            // Scale and translate so we only render the region behind our view
+            val scaleX = scaledWidth.toFloat() / viewWidth
+            val scaleY = scaledHeight.toFloat() / viewHeight
+            canvas.scale(scaleX, scaleY)
+            canvas.translate(-relativeX.toFloat(), -relativeY.toFloat())
 
-        // Scale and translate so we only render the region behind our view
-        val scaleX = scaledWidth.toFloat() / viewWidth
-        val scaleY = scaledHeight.toFloat() / viewHeight
-        canvas.scale(scaleX, scaleY)
-        canvas.translate(-relativeX.toFloat(), -relativeY.toFloat())
-
-        // Hide our view temporarily so it doesn't render itself
-        val wasVisible = view.visibility
-        try {
-            // Must post visibility change on UI thread
-            view.post { view.visibility = View.INVISIBLE }
-            // Small delay to let the visibility change take effect
-            Thread.sleep(2)
-
-            // Draw the parent hierarchy (will include everything except our hidden view)
-            parent.draw(canvas)
-        } catch (e: Exception) {
-            Log.e(TAG, "Error during parent draw", e)
-        } finally {
-            // Restore visibility
-            view.post { view.visibility = wasVisible }
+            try {
+                parent.draw(canvas)
+            } catch (e: Exception) {
+                Log.e(TAG, "Error during parent draw", e)
+            } finally {
+                canvas.restore()
+                
+                // Swap to front buffer now that drawing is complete
+                currentBitmap.set(bitmap)
+                useA = !useA
+                isDrawingOnUIThread.set(false)
+            }
         }
-
-        canvas.restore()
-
-        // Swap to front buffer
-        currentBitmap.set(bitmap)
-        useA = !useA
     }
 
     /**
