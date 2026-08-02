@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LiquidGlassView">
+        <!-- Refraction -->
+        <attr name="lg_indexOfRefraction" format="float" />
+        <attr name="lg_chromaticAberration" format="float" />
+        
+        <!-- Fresnel & Specular -->
+        <attr name="lg_fresnelPower" format="float" />
+        <attr name="lg_shininess" format="float" />
+        <attr name="lg_specularIntensity" format="float" />
+        
+        <!-- Liquid Animation -->
+        <attr name="lg_liquidSpeed" format="float" />
+        <attr name="lg_liquidScale" format="float" />
+        <attr name="lg_liquidAmplitude" format="float" />
+        
+        <!-- Edge Glow -->
+        <attr name="lg_edgeGlowColor" format="color" />
+        <attr name="lg_edgeGlowIntensity" format="float" />
+        
+        <!-- Tinting -->
+        <attr name="lg_tintColor" format="color" />
+        <attr name="lg_tintIntensity" format="float" />
+        
+        <!-- Blur -->
+        <attr name="lg_blurRadius" format="float" />
+        
+        <!-- Ripple Effect -->
+        <attr name="lg_rippleAmplitude" format="float" />
+        <attr name="lg_rippleDuration" format="float" />
+        
+        <!-- Shape -->
+        <attr name="lg_cornerRadius" format="dimension" />
+        
+        <!-- Performance & Sensors -->
+        <attr name="lg_captureDownscale" format="float" />
+        <attr name="lg_captureFrameRate" format="integer" />
+        <attr name="lg_sensorEnabled" format="boolean" />
+        <attr name="lg_sensorSensitivity" format="float" />
+    </declare-styleable>
+</resources>

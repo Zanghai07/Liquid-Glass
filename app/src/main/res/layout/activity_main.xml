@@ -1,16 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF0D0D0D">
 
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Hello user!"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    <!-- Animated background content that will be visible through the glass -->
+    <ScrollView
+        android:id="@+id/backgroundScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Colorful gradient cards as background content -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🧊 Liquid Glass Demo"
+                android:textColor="#FFFFFF"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
+                android:paddingBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Scroll, tilt, and touch the glass panels below.\nThis is real refraction — not a blur overlay."
+                android:textColor="#99FFFFFF"
+                android:textSize="14sp"
+                android:paddingBottom="24dp" />
+
+            <!-- Gradient background cards -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/gradient_card_1" />
+
+            <ImageView
+                android:id="@+id/demoImage1"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="12dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/gradient_card_2" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/gradient_card_3" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/gradient_card_4" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/gradient_card_5" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
+                android:textColor="#CCFFFFFF"
+                android:textSize="16sp"
+                android:lineSpacingMultiplier="1.4"
+                android:paddingBottom="16dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/gradient_card_1" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/gradient_card_3" />
+
+            <!-- Extra space so content scrolls behind glass -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="600dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Liquid Glass panels overlaying the content -->
+
+    <!-- Top glass panel: iOS-style -->
+    <com.zanghai.liquidglass.lib.LiquidGlassView
+        android:id="@+id/glassTop"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="80dp"
+        android:layout_gravity="top|center_horizontal"
+        app:lg_cornerRadius="24"
+        app:lg_indexOfRefraction="1.45"
+        app:lg_chromaticAberration="0.012"
+        app:lg_blurRadius="10"
+        app:lg_liquidSpeed="0.3"
+        app:lg_liquidAmplitude="0.02"
+        app:lg_edgeGlowIntensity="0.5"
+        app:lg_tintColor="#10FFFFFF"
+        app:lg_tintIntensity="0.05" />
+
+    <!-- Bottom glass panel: Water-style -->
+    <com.zanghai.liquidglass.lib.LiquidGlassView
+        android:id="@+id/glassBottom"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="40dp"
+        android:layout_gravity="bottom|center_horizontal"
+        app:lg_cornerRadius="20"
+        app:lg_indexOfRefraction="1.33"
+        app:lg_chromaticAberration="0.01"
+        app:lg_blurRadius="4"
+        app:lg_liquidSpeed="0.5"
+        app:lg_liquidAmplitude="0.035"
+        app:lg_liquidScale="3.0"
+        app:lg_tintColor="#150077FF"
+        app:lg_tintIntensity="0.12" />
+
+    <!-- Preset selector chips at the very bottom -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="4dp"
+        android:scrollbars="none"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:id="@+id/presetChips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp" />
+
+    </HorizontalScrollView>
+
+</FrameLayout>
