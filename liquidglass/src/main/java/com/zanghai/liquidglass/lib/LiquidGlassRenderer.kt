@@ -410,6 +410,9 @@ internal class LiquidGlassRenderer(
         GLES20.glUniform1f(GLES20.glGetUniformLocation(liquidProgram, "u_Time"), time)
         GLES20.glUniform2f(GLES20.glGetUniformLocation(liquidProgram, "u_Resolution"), width.toFloat(), height.toFloat())
         
+        val radiusPx = config.cornerRadius * context.resources.displayMetrics.density
+        GLES20.glUniform1f(GLES20.glGetUniformLocation(liquidProgram, "u_CornerRadius"), radiusPx)
+        
         // Set configuration uniforms
         GLES20.glUniform1f(GLES20.glGetUniformLocation(liquidProgram, "u_IOR"), config.indexOfRefraction)
         GLES20.glUniform1f(GLES20.glGetUniformLocation(liquidProgram, "u_ChromaticAberration"), config.chromaticAberration)

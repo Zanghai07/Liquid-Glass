@@ -154,7 +154,7 @@ class LiquidGlassView @JvmOverloads constructor(
                     outline.setRoundRect(0, 0, view.width, view.height, radiusPx)
                 }
             }
-            clipToOutline = true
+            clipToOutline = false // Let the shader handle the soft edges for anti-aliasing, but provide outline for elevation shadows
         } else {
             outlineProvider = null
             clipToOutline = false
